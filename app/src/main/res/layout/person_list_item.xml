@@ -2,34 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
             name="person"
             type="com.yunushantombak.scorpdemoapp.repository.Person" />
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/person_textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:text="@{person.fullName+'('+String.valueOf(person.id)+')'}"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/person_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{person.fullName+'('+String.valueOf(person.id)+')'}"
-                android:textSize="16sp"
-
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="23dp" />
-
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

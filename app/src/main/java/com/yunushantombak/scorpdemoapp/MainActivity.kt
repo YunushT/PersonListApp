@@ -2,6 +2,7 @@ package com.yunushantombak.scorpdemoapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yunushantombak.scorpdemoapp.adapter.PersonListAdapter
@@ -20,13 +21,23 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel.getPersonList(null)
+        swipeRefreshLayout.isRefreshing = true
         viewModel.personList.observe(this){
             adapter.personList = it
+            swipeRefreshLayout.isRefreshing = false
+            if(it.isEmpty()){
+                recyclerView.visibility = View.GONE
+                empty_list_textview.visibility = View.VISIBLE
+            }else {
+                recyclerView.visibility = View.VISIBLE
+                empty_list_textview.visibility = View.GONE
+            }
         }
 
-
-
-
-
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getPersonList(null)
+            swipeRefreshLayout.isRefreshing = true
+        }
     }
 }

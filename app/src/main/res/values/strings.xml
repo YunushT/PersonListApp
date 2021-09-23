@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ScorpDemoApp</string>
+    <string name="empty_list">No one is here!</string>
+    <string name="refresh_warning">Pull Down To Refresh</string>
 </resources>
