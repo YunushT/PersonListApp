@@ -10,35 +10,28 @@ import android.content.res.Resources
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.snackbar.Snackbar
+import com.yunushantombak.scorpdemoapp.adapter.IOnResponseErrorListener
 
 class MainActivityViewModel(var context: Application) : AndroidViewModel(context) {
 
-    var personList = MutableLiveData<List<Person>>()
+    var personList = MutableLiveData<MutableList<Person>>()
     val repository = DataSource()
+    var nextState: String? = null
 
 
-    fun getPersonList(next: String?) {
+    fun getPersonList(next: String?, onResponseError: IOnResponseErrorListener) {
         repository.fetch(next, object : FetchCompletionHandler {
             override fun invoke(p1: FetchResponse?, p2: FetchError?) {
                 if (p1 != null) {
-                    personList.value = p1.people
-                    p1.next
+                    personList.postValue(p1.people as MutableList<Person>)
+                    nextState = p1.next
                 } else if (p2 != null) {
-                    Toast.makeText(context,"An Error Occured. Get Data Failed",Toast.LENGTH_SHORT).show()
-                    //Snackbar.make(context,"An Error Occured. Get Data Failed")
+                    onResponseError.onError()
                     p2.errorDescription
                 }
             }
-
         })
     }
 
-    private fun calcMaxItemCountOnScreen() {
-        //var maxItemCount = getHeight() /
-    }
-
-    private fun getHeight(): Int {
-        val displayMetrics = Resources.getSystem().displayMetrics
-        return displayMetrics.heightPixels;
-    }
 }

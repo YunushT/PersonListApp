@@ -1,11 +1,9 @@
 package com.yunushantombak.scorpdemoapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yunushantombak.scorpdemoapp.R
 import com.yunushantombak.scorpdemoapp.databinding.PersonListItemBinding
@@ -16,21 +14,7 @@ class PersonListAdapter : RecyclerView.Adapter<PersonListAdapter.PersonViewHolde
 
     }
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Person>() {
-        override fun areItemsTheSame(oldItem: Person, newItem: Person): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Person, newItem: Person): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    private val recyclerListDiffer = AsyncListDiffer(this, diffUtil)
-
-    var personList: List<Person>
-        get() = recyclerListDiffer.currentList
-        set(value) = recyclerListDiffer.submitList(value)
+    var personList = ArrayList<Person>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
@@ -50,6 +34,16 @@ class PersonListAdapter : RecyclerView.Adapter<PersonListAdapter.PersonViewHolde
 
     override fun getItemCount(): Int {
         return personList.size
+    }
+
+    fun updateList(newList: MutableList<Person>, isCleanListNeed: Boolean) {
+        if (isCleanListNeed) {
+            personList.clear()
+        }
+        personList.addAll(newList)
+        notifyDataSetChanged()
+
+
     }
 
 }
