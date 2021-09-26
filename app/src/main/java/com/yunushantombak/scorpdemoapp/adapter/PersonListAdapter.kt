@@ -41,6 +41,7 @@ class PersonListAdapter : RecyclerView.Adapter<PersonListAdapter.PersonViewHolde
             personList.clear()
         }
         personList.addAll(newList)
+        personList = personList.distinct() as ArrayList<Person>
         notifyDataSetChanged()
 
 
